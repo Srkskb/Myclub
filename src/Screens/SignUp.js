@@ -59,50 +59,38 @@ export default function SignUp({ navigation }) {
     //   return;
     //  }
 
-    var data={
-      registration: 1,
-      Name: Name,
-      surname: surname,
-      mobile: Mobile,
-      Email: Email,
-      password: Password,
-     Address:address
-   }
-  //  var ldata={
-  //     email: email,
-  //     password: password,
-  //     role: 'user'
-  // }
-       //console.log('data', data)
-
-    try {
-     axios.post('https://mybagclub.net/api/api.php', data)
-      .then(response => {
-      console.log('response',response)
-      Toast.show('Your Account Register successfully. Signing into your account')
-      // setLoadingtypeoverlay(false);
-      try {
-
-  
-}
-    catch(error)  {
-      // console.log('error',error.response.data)
-        Toast.show('There is some connection problem. Please try later.')
-        setLoadingtypeoverlay(false);
-    }
-      // navigation.navigate('VerifyScreen',{ email})
-      })
-    .catch(err => {
-        //console.log('error',err)
-        setLoadingtypeoverlay(false);
-        Toast.show('This account already exit')
-      });
-    }
-    catch(error)  {
-      //console.log('error',error)
-        Toast.show('There is some connection problem. Please try later.')
-        setLoadingtypeoverlay(false);
-    }
+    var data = JSON.stringify({
+      'registration': 1 ,
+      'Email': Email,
+      'Password': Password,
+      'Name': Name,
+      'Mobile': Mobile,
+      'surname': surname,
+      'address': address 
+    });
+    var config = {
+      method: 'post',
+      url: 'https://mybagclub.net/api/api.php',
+      headers: { 
+        'Accept': 'application/json', 
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data : data
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      if (response.data.status == 200) {
+       navigation.navigate("Login")
+      }
+      else{
+        console.log(response);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }
   return (
     <View style={styles.container}>

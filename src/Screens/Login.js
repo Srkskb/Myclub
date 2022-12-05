@@ -22,8 +22,13 @@ import {
 } from "react-native-responsive-screen";
 import { FontAwesome } from "@expo/vector-icons";
 import Input from "../component/inputs/Input";
+import axios from "axios";
+import Toast from 'react-native-simple-toast';
 export default function Login({navigation}) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const[Email,setEmail]=useState("")
+  const[Password,setPassword]=useState("")
+  const [loadingtypeoverlay, setLoadingtypeoverlay] = useState(false)
 
   useEffect(() => {
      const keyboardDidShowListener = Keyboard.addListener(
@@ -44,6 +49,70 @@ export default function Login({navigation}) {
        keyboardDidShowListener.remove();
      };
    }, []);
+   const onSubmit = async() => {
+
+    //console.log('hit login api in else part');
+    setLoadingtypeoverlay(true);
+
+    var email_test = String(Email).trim().toLowerCase()
+
+    if ( email_test === false  ) {
+    setLoadingtypeoverlay(false);
+    //console.log('email_test',email_test)
+      setTimeout(()=> {
+        Toast.show('Invalid email')
+        },200)
+        return
+    }
+    var password_test = (String(Password).trim()).length > 5
+    if ( password_test === false  ) {
+    setLoadingtypeoverlay(false);
+    //console.log('password_test',password_test)
+      setTimeout(()=> {
+        Toast.show('Invalid password')
+        },200)
+        return
+    }
+
+  
+
+    // if( Password !== confirmPass  ){
+    //    Toast.show('confirm password does not match with password');
+    //   return;
+    //  }
+
+    var data = JSON.stringify({
+      'login': '1',
+      'Email': Email,
+      'Password': Password,
+    });
+    var config = {
+      method: 'post',
+      url: 'https://mybagclub.net/api/api.php',
+      headers: { 
+        'Accept': 'application/json', 
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data : data
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      if (response.data.status == 200) {
+       navigation.navigate("Home")
+      }
+      else{
+        console.log(response);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
+
+
   return (
     // <ScrollView style={{ flex: 1 }}>
     <View style={{ flex: 1, paddingHorizontal: 20 }}>
@@ -53,8 +122,14 @@ export default function Login({navigation}) {
       <View>
         <Text style={styles.text}>Log in to your account</Text>
       </View>
-      <Input iconName={"email"} placeholder={"Email"}/>
-      <Input iconName={"lock"} placeholder={"Password"} />
+      <Input iconName={"email"} placeholder={"Email"}
+       value={Email}
+       onChangeText={val => setEmail(val)}
+      />
+      <Input iconName={"lock"} placeholder={"Password"} 
+            value={Password}
+            onChangeText={val => setPassword(val)}
+      />
       <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
         <View style={{}}></View>
         <TouchableOpacity onPress={()=>navigation.navigate("ForgetPassword")} style={{ paddingTop: 10, paddingBottom: 20 }}>
@@ -62,7 +137,7 @@ export default function Login({navigation}) {
         </TouchableOpacity>
       </View>
       <View style={{ alignItems: "center" }}>
-        <VioletButton buttonName="LOGIN" onPress={()=>navigation.navigate("Home")}/>
+        <VioletButton buttonName="LOGIN" onPress={onSubmit}/>
       </View>
       <View style={styles.SignUpOption}>
         <View>

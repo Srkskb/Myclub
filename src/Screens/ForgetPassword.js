@@ -1,5 +1,5 @@
 import { View, Text,StatusBar,Image,StyleSheet, ScrollView } from 'react-native'
-import React from 'react'
+import React ,{useEffect,useState}from 'react'
 import color from '../theme/color';
 import {
   heightPercentageToDP as hp,
@@ -10,7 +10,63 @@ import { FontAwesome } from "@expo/vector-icons";
 import VioletButton from "../component/VioletButton";
 import BackButton from '../component/Backbutton';
 import Input from '../component/inputs/Input';
+import axios from "axios";
+import Toast from 'react-native-simple-toast';
 export default function ForgetPassword({navigation}) {
+  const[Email,setEmail]=useState("")
+  const [loadingtypeoverlay, setLoadingtypeoverlay] = useState(false)
+  const onSubmit = async() => {
+
+    //console.log('hit login api in else part');
+    setLoadingtypeoverlay(true);
+
+    var email_test = String(Email).trim().toLowerCase()
+
+    if ( email_test === false  ) {
+    setLoadingtypeoverlay(false);
+    //console.log('email_test',email_test)
+      setTimeout(()=> {
+        Toast.show('Invalid email')
+        },200)
+        return
+    }
+
+  
+
+    // if( Password !== confirmPass  ){
+    //    Toast.show('confirm password does not match with password');
+    //   return;
+    //  }
+
+    var data = JSON.stringify({
+      'Forgot_password': '1',
+      'Email': Email,
+    });
+    var config = {
+      method: 'post',
+      url: 'https://mybagclub.net/api/api.php',
+      headers: { 
+        'Accept': 'application/json', 
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data : data
+    };
+    
+    axios(config)
+    .then(function (response) {
+      console.log(JSON.stringify(response.data));
+      if (response.data.status == 200) {
+       navigation.navigate("ForgetPassword2")
+      }
+      else{
+        console.log(response);
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+}
+
   return (
     <ScrollView style={{paddingHorizontal:15}}>
        <BackButton onPress={()=>navigation.goBack()}/>
@@ -35,9 +91,12 @@ export default function ForgetPassword({navigation}) {
           Enter the email address associated with your account
         </Text>
       </View>
-      <Input iconName={"email"} placeholder={"Email"} />
+      <Input iconName={"email"} placeholder={"Email"} 
+       value={Email}
+       onChangeText={val => setEmail(val)}
+      />
       <View style={{ paddingVertical:40 }}>
-        <VioletButton buttonName="SEND" onPress={()=>navigation.navigate("ForgetPassword2")}/>
+        <VioletButton buttonName="SEND" onPress={onSubmit}/>
       </View>
     </ScrollView>
   );
