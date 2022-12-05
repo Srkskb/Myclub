@@ -54,12 +54,13 @@ export default function SignUp({ navigation }) {
         return
     }
 
-    if( Password !== confirmPass  ){
-       Toast.show('confirm password does not match with password');
-      return;
-     }
+    // if( Password !== confirmPass  ){
+    //    Toast.show('confirm password does not match with password');
+    //   return;
+    //  }
 
     var data={
+      registration: 1,
       Name: Name,
       surname: surname,
       mobile: Mobile,
@@ -67,11 +68,11 @@ export default function SignUp({ navigation }) {
       password: Password,
      Address:address
    }
-   var ldata={
-      email: email,
-      password: password,
-      role: 'user'
-  }
+  //  var ldata={
+  //     email: email,
+  //     password: password,
+  //     role: 'user'
+  // }
        //console.log('data', data)
 
     try {
