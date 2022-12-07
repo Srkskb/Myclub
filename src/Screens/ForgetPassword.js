@@ -12,6 +12,8 @@ import BackButton from '../component/Backbutton';
 import Input from '../component/inputs/Input';
 import axios from "axios";
 import Toast from 'react-native-simple-toast';
+import * as qs from 'qs'
+
 export default function ForgetPassword({navigation}) {
   const[Email,setEmail]=useState("")
   const [loadingtypeoverlay, setLoadingtypeoverlay] = useState(false)
@@ -38,7 +40,7 @@ export default function ForgetPassword({navigation}) {
     //   return;
     //  }
 
-    var data = JSON.stringify({
+    var data = qs.stringify({
       'Forgot_password': '1',
       'Email': Email,
     });
@@ -53,17 +55,13 @@ export default function ForgetPassword({navigation}) {
     };
     
     axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-      if (response.data.status == 200) {
-       navigation.navigate("ForgetPassword2")
-      }
-      else{
-        console.log(response);
-      }
+    .then((response)=>{
+      console.log(JSON.stringify(response));
+      navigation.navigate("Login")
+  
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data.message);
     });
 }
 

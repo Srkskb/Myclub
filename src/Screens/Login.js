@@ -24,6 +24,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import Input from "../component/inputs/Input";
 import axios from "axios";
 import Toast from 'react-native-simple-toast';
+import * as qs from 'qs'
 export default function Login({navigation}) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   const[Email,setEmail]=useState("")
@@ -51,28 +52,28 @@ export default function Login({navigation}) {
    }, []);
    const onSubmit = async() => {
 
-    //console.log('hit login api in else part');
-    setLoadingtypeoverlay(true);
+    // //console.log('hit login api in else part');
+    // setLoadingtypeoverlay(true);
 
-    var email_test = String(Email).trim().toLowerCase()
+    // var email_test = String(Email).trim().toLowerCase()
 
-    if ( email_test === false  ) {
-    setLoadingtypeoverlay(false);
-    //console.log('email_test',email_test)
-      setTimeout(()=> {
-        Toast.show('Invalid email')
-        },200)
-        return
-    }
-    var password_test = (String(Password).trim()).length > 5
-    if ( password_test === false  ) {
-    setLoadingtypeoverlay(false);
-    //console.log('password_test',password_test)
-      setTimeout(()=> {
-        Toast.show('Invalid password')
-        },200)
-        return
-    }
+    // if ( email_test === false  ) {
+    // setLoadingtypeoverlay(false);
+    // //console.log('email_test',email_test)
+    //   setTimeout(()=> {
+    //     Toast.show('Invalid email')
+    //     },200)
+    //     return
+    // }
+    // var password_test = (String(Password).trim()).length > 5
+    // if ( password_test === false  ) {
+    // setLoadingtypeoverlay(false);
+    // //console.log('password_test',password_test)
+    //   setTimeout(()=> {
+    //     Toast.show('Invalid password')
+    //     },200)
+    //     return
+    // }
 
   
 
@@ -81,7 +82,7 @@ export default function Login({navigation}) {
     //   return;
     //  }
 
-    var data = JSON.stringify({
+    var data = qs.stringify({
       'login': '1',
       'Email': Email,
       'Password': Password,
@@ -97,17 +98,13 @@ export default function Login({navigation}) {
     };
     
     axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-      if (response.data.status == 200) {
-       navigation.navigate("Home")
-      }
-      else{
-        console.log(response);
-      }
+    .then((response)=>{
+      console.log(JSON.stringify(response));
+      navigation.navigate("Home")
+  
     })
     .catch(function (error) {
-      console.log(error);
+      console.log(error.response.data.message);
     });
 }
 
