@@ -83,6 +83,7 @@ export default function SignUp({ navigation }) {
     axios(config)
     .then((response)=>{
       console.log(JSON.stringify(response));
+      navigation.navigate("Login")
       // if (response.data.status == 200) {
       //  navigation.navigate("Login")
       // }
