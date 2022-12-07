@@ -61,13 +61,13 @@ export default function SignUp({ navigation }) {
     //  }
 
     var data = qs.stringify({
-  'registration': '1',
-  'Email': 'chetanidigitalweb@gmail.com',
-  'Password': '123456',
-  'Name': 'Chetan',
-  'Mobile': '8126103764',
-  'surname': 'saini',
-  'address': 'address' 
+  'registration': 1,
+  'Email': Email,
+  'Password': Password,
+  'Name': Name,
+  'Mobile': Mobile,
+  'surname': surname,
+  'address': address
 });
     var config = {
       method: 'post',
