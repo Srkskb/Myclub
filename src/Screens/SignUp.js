@@ -10,6 +10,7 @@ import axios from "axios";
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
+import * as qs from 'qs'
 export default function SignUp({ navigation }) {
   const[Name ,setName]=useState("")
   const[surname,setSurname]=useState("")
@@ -22,74 +23,75 @@ export default function SignUp({ navigation }) {
   const onSubmit = async() => {
 
     //console.log('hit login api in else part');
-    setLoadingtypeoverlay(true);
+    // setLoadingtypeoverlay(true);
 
-    var email_test = String(Email).trim().toLowerCase()
+    // var email_test = String(Email).trim().toLowerCase()
 
-    if ( email_test === false  ) {
-    setLoadingtypeoverlay(false);
-    //console.log('email_test',email_test)
-      setTimeout(()=> {
-        Toast.show('Invalid email')
-        },200)
-        return
-    }
-    var password_test = (String(Password).trim()).length > 5
-    if ( password_test === false  ) {
-    setLoadingtypeoverlay(false);
-    //console.log('password_test',password_test)
-      setTimeout(()=> {
-        Toast.show('Invalid password')
-        },200)
-        return
-    }
+    // if ( email_test === false  ) {
+    // setLoadingtypeoverlay(false);
+    // //console.log('email_test',email_test)
+    //   setTimeout(()=> {
+    //     Toast.show('Invalid email')
+    //     },200)
+    //     return
+    // }
+    // var password_test = (String(Password).trim()).length > 5
+    // if ( password_test === false  ) {
+    // setLoadingtypeoverlay(false);
+    // //console.log('password_test',password_test)
+    //   setTimeout(()=> {
+    //     Toast.show('Invalid password')
+    //     },200)
+    //     return
+    // }
 
-    var mobile_test = (String(Mobile).trim()).length ==  10
-    if ( mobile_test === false  ) {
-    setLoadingtypeoverlay(false);
-    //console.log('email_test',mobile_test)
-      setTimeout(()=> {
-        Toast.show('Invalid phone number')
-        },200)
-        return
-    }
+    // var mobile_test = (String(Mobile).trim()).length ==  10
+    // if ( mobile_test === false  ) {
+    // setLoadingtypeoverlay(false);
+    // //console.log('email_test',mobile_test)
+    //   setTimeout(()=> {
+    //     Toast.show('Invalid phone number')
+    //     },200)
+    //     return
+    // }
 
     // if( Password !== confirmPass  ){
     //    Toast.show('confirm password does not match with password');
     //   return;
     //  }
 
-    var data = JSON.stringify({
-      'registration': 1 ,
-      'Email': Email,
-      'Password': Password,
-      'Name': Name,
-      'Mobile': Mobile,
-      'surname': surname,
-      'address': address 
-    });
+    var data = qs.stringify({
+  'registration': '1',
+  'Email': 'chetanidigitalweb@gmail.com',
+  'Password': '123456',
+  'Name': 'Chetan',
+  'Mobile': '8126103764',
+  'surname': 'saini',
+  'address': 'address' 
+});
     var config = {
       method: 'post',
       url: 'https://mybagclub.net/api/api.php',
       headers: { 
         'Accept': 'application/json', 
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
       data : data
     };
+    console.log(config)
     
     axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-      if (response.data.status == 200) {
-       navigation.navigate("Login")
-      }
-      else{
-        console.log(response);
-      }
+    .then((response)=>{
+      console.log(JSON.stringify(response));
+      // if (response.data.status == 200) {
+      //  navigation.navigate("Login")
+      // }
+      // else{
+      //   console.log(response);
+      // }
     })
-    .catch(function (error) {
-      console.log(error);
+    .catch((error)=>{
+      console.log(error.response.data.message);
     });
 }
   return (
