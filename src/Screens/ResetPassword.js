@@ -1,5 +1,5 @@
 import { View, Text, StatusBar,StyleSheet,Image, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import color from '../theme/color';
 import {
   heightPercentageToDP as hp,
@@ -9,7 +9,69 @@ import UserInput from '../component/UserInput';
 import VioletButton from '../component/VioletButton';
 import BackButton from '../component/Backbutton';
 import Input2 from '../component/inputs/Input2';
+import { showMessage, hideMessage } from "react-native-flash-message";
+import axios from "axios";
+import * as qs from 'qs'
 export default function ResetPassword({navigation}) {
+  const[Password,setPassword]=useState("")
+  const[Email,setEmail]=useState("")
+  const [loadingtypeoverlay, setLoadingtypeoverlay] = useState(false)
+  const onSubmit = async() => {
+    if(Password){
+    //console.log('hit login api in else part');
+    setLoadingtypeoverlay(true);
+
+    var email_test = String(Email).trim().toLowerCase()
+
+    if ( email_test === false  ) {
+    setLoadingtypeoverlay(false);
+    //console.log('email_test',email_test)
+      setTimeout(()=> {
+        Toast.show('Invalid email')
+        },200)
+        return
+    }
+
+  
+
+    // if( Password !== confirmPass  ){
+    //    Toast.show('confirm password does not match with password');
+    //   return;
+    //  }
+
+    var data = qs.stringify({
+      'Reset_password': '1',
+  'email': Email,
+  'password': Password
+    });
+    var config = {
+      method: 'post',
+      url: 'https://mybagclub.net/api/api.php',
+      headers: { 
+        'Accept': 'application/json', 
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data : data
+    };
+    
+    axios(config)
+    .then((response)=>{
+      console.log(JSON.stringify(response.data));
+      navigation.navigate("Login")
+  
+    })
+    .catch((error)=>{
+      console.log(error.response.data.message);
+    });
+  }
+  showMessage({
+               message: "MYBAG CLUB",
+               description: "Please enter new password",
+               type: "danger",
+  textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
+  titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
+             });
+}
   return (
     <View style={{paddingHorizontal:10,flex:1}}>
       <BackButton onPress={()=>navigation.goBack()}/>
@@ -27,10 +89,19 @@ export default function ResetPassword({navigation}) {
       <Text style={styles.description}>
         <Text>Enter your new password below</Text>
       </Text>
-     <Input2 label={"Password"} placeholder="Enter Password" />
-     <Input2 label={"Confirm Password"} placeholder="Confirm Password"/>
+      <Input2 iconName={"email"} placeholder={"Email"}
+       value={Email}
+       onChangeText={val => setEmail(val)}
+      />
+     <Input2 label={"Password"} placeholder="Enter Password"
+      value={Password}
+      onChangeText={val => setPassword(val)}
+     />
+     <Input2 label={"Confirm Password"} placeholder="Confirm Password"
+     
+     />
       <View style={{paddingVertical:30,alignItems:'center'}}>
-        <VioletButton buttonName="CREATE" onPress={()=>navigation.navigate("Login")}/>
+        <VioletButton buttonName="CREATE" onPress={onSubmit}/>
       </View>
       </ScrollView>
     </View>

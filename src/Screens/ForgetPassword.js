@@ -58,7 +58,7 @@ export default function ForgetPassword({navigation}) {
     axios(config)
     .then((response)=>{
       console.log(JSON.stringify(response.data));
-      navigation.navigate("Login")
+      navigation.navigate("ForgetPassword2")
   
     })
     .catch((error)=>{
