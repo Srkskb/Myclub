@@ -7,6 +7,7 @@ import VioletButton from "../component/VioletButton";
 import { ScrollView } from "react-native-gesture-handler";
 import Input2 from "../component/inputs/Input2";
 import axios from "axios";
+import { showMessage, hideMessage } from "react-native-flash-message";
 import Toast from 'react-native-simple-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -21,7 +22,7 @@ export default function SignUp({ navigation }) {
   const [loadingtypeoverlay, setLoadingtypeoverlay] = useState(false)
 
   const onSubmit = async() => {
-
+    if(Email&&Password){
     //console.log('hit login api in else part');
     // setLoadingtypeoverlay(true);
 
@@ -94,6 +95,14 @@ export default function SignUp({ navigation }) {
     .catch((error)=>{
       console.log(error.response.data.message);
     });
+  }
+  showMessage({
+               message: "MYBAG CLUB",
+               description: "Please enter all required fields ",
+               type: "danger",
+  textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
+  titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
+             });
 }
   return (
     <View style={styles.container}>
