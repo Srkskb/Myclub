@@ -1,9 +1,10 @@
-import { View, Text, StatusBar, Image, StyleSheet,ScrollView } from "react-native";
+import { View, Text, StatusBar, Image, StyleSheet,ScrollView ,FlatList} from "react-native";
 import React from "react";
 import color from "../theme/color";
 import Header from "../component/Header.js";
 import SearchBox from "../component/SearchBox.js";
-
+import * as qs from 'qs'
+import axios from "axios";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -11,6 +12,24 @@ import {
 import Heading from "../component/Heading";
 import MyBagClubCard from "../component/MyBagClubCard";
 export default function Home() {
+  var data = qs.stringify({
+    'banner': '1' 
+  });
+  var config = {
+    method: 'post',
+    url: 'https://mybagclub.net/api/api.php',
+    headers: { 
+      'Accept': 'application/json', 
+      'Content-Type': 'application/x-www-form-urlencoded', 
+      'Cookie': 'PHPSESSID=88642bac642a3a07df061d23628420c7'
+    },
+    data : data
+  };
+  
+  axios(config)
+  .then(function (response) {
+    console.log(JSON.stringify(response.data));
+  })
   return (
     <ScrollView>
       <View>
