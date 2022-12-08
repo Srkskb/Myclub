@@ -53,36 +53,6 @@ export default function Login({navigation}) {
    }, []);
    const onSubmit = async() => {
     if(Email&&Password){
-    // //console.log('hit login api in else part');
-    // setLoadingtypeoverlay(true);
-
-    var email_test = String(Email).trim().toLowerCase()
-
-    if ( Email&&Email.length>0 ) {
-    setLoadingtypeoverlay(false);
-    console.log('email_test',email_test)
-      setTimeout(()=> {
-        Toast.show('Invalid email')
-        },200)
-        return
-    }
-    var password_test = (String(Password).trim()).length > 5
-    if ( Password&&Password.length>0 ) {
-    setLoadingtypeoverlay(false);
-    console.log('password_test',password_test)
-      setTimeout(()=> {
-        Toast.show('Invalid password')
-        },200)
-        return
-    }
-
-  
-
-    // if( Password !== confirmPass  ){
-    //    Toast.show('confirm password does not match with password');
-    //   return;
-    //  }
-
     var data = qs.stringify({
       'login': '1',
       'Email': Email,
@@ -115,6 +85,7 @@ export default function Login({navigation}) {
   textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
   titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
              });
+            
 }
 
 

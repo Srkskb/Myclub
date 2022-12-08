@@ -10,6 +10,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import VioletButton from "../component/VioletButton";
 import BackButton from '../component/Backbutton';
 import Input from '../component/inputs/Input';
+import { showMessage, hideMessage } from "react-native-flash-message";
 import axios from "axios";
 import Toast from 'react-native-simple-toast';
 import * as qs from 'qs'
@@ -18,7 +19,7 @@ export default function ForgetPassword({navigation}) {
   const[Email,setEmail]=useState("")
   const [loadingtypeoverlay, setLoadingtypeoverlay] = useState(false)
   const onSubmit = async() => {
-
+    if(Email){
     //console.log('hit login api in else part');
     setLoadingtypeoverlay(true);
 
@@ -63,6 +64,14 @@ export default function ForgetPassword({navigation}) {
     .catch((error)=>{
       console.log(error.response.data.message);
     });
+  }
+  showMessage({
+               message: "MYBAG CLUB",
+               description: "Please enter Email",
+               type: "danger",
+  textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
+  titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
+             });
 }
 
   return (
