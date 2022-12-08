@@ -23,43 +23,6 @@ export default function SignUp({ navigation }) {
 
   const onSubmit = async() => {
     if(Email&&Password){
-    //console.log('hit login api in else part');
-    // setLoadingtypeoverlay(true);
-
-    // var email_test = String(Email).trim().toLowerCase()
-
-    // if ( email_test === false  ) {
-    // setLoadingtypeoverlay(false);
-    // //console.log('email_test',email_test)
-    //   setTimeout(()=> {
-    //     Toast.show('Invalid email')
-    //     },200)
-    //     return
-    // }
-    // var password_test = (String(Password).trim()).length > 5
-    // if ( password_test === false  ) {
-    // setLoadingtypeoverlay(false);
-    // //console.log('password_test',password_test)
-    //   setTimeout(()=> {
-    //     Toast.show('Invalid password')
-    //     },200)
-    //     return
-    // }
-
-    // var mobile_test = (String(Mobile).trim()).length ==  10
-    // if ( mobile_test === false  ) {
-    // setLoadingtypeoverlay(false);
-    // //console.log('email_test',mobile_test)
-    //   setTimeout(()=> {
-    //     Toast.show('Invalid phone number')
-    //     },200)
-    //     return
-    // }
-
-    // if( Password !== confirmPass  ){
-    //    Toast.show('confirm password does not match with password');
-    //   return;
-    //  }
 
     var data = qs.stringify({
   'registration': 1,
@@ -85,12 +48,6 @@ export default function SignUp({ navigation }) {
     .then((response)=>{
       console.log(JSON.stringify(response));
       navigation.navigate("Login")
-      // if (response.data.status == 200) {
-      //  navigation.navigate("Login")
-      // }
-      // else{
-      //   console.log(response);
-      // }
     })
     .catch((error)=>{
       console.log(error.response.data.message);
