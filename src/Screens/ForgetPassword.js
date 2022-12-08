@@ -42,7 +42,7 @@ export default function ForgetPassword({navigation}) {
 
     var data = qs.stringify({
       'Forgot_password': '1',
-      'email':'chetanidigitalweb@gmail.com',
+      'email':Email,
     });
     var config = {
       method: 'post',

@@ -7,11 +7,13 @@ import Home from "./src/Screens/Home";
 import ForgetPassword from "./src/Screens/ForgetPassword";
 import ForgetPassword2 from "./src/Screens/ForgetPassword2";
 import ResetPassword from "./src/Screens/ResetPassword";
-
 import DetailedScreen from "./src/Screens/DetailedScreen";
+import FlashMessage from "react-native-flash-message";
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 export default function App() {
   const Stack = createStackNavigator();
   return (
+    <SafeAreaProvider>
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown:false}}>
         <Stack.Screen name="Home" component={Home} />
@@ -22,5 +24,7 @@ export default function App() {
         <Stack.Screen name="ResetPassword" component={ResetPassword} />
       </Stack.Navigator>
     </NavigationContainer>
+    <FlashMessage position="top" />
+       </SafeAreaProvider>
 );
 }

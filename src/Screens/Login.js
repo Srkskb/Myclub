@@ -22,6 +22,7 @@ import {
 } from "react-native-responsive-screen";
 import { FontAwesome } from "@expo/vector-icons";
 import Input from "../component/inputs/Input";
+import { showMessage, hideMessage } from "react-native-flash-message";
 import axios from "axios";
 import Toast from 'react-native-simple-toast';
 import * as qs from 'qs'
@@ -51,7 +52,7 @@ export default function Login({navigation}) {
      };
    }, []);
    const onSubmit = async() => {
-
+    if(Email&&Password){
     // //console.log('hit login api in else part');
     // setLoadingtypeoverlay(true);
 
@@ -106,6 +107,14 @@ export default function Login({navigation}) {
     .catch((error)=>{
       console.log(error.response.data.message);
     });
+  }
+  showMessage({
+               message: "MYBAG CLUB",
+               description: "Please enter Email or Password",
+               type: "danger",
+  textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
+  titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
+             });
 }
 
 
