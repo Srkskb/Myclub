@@ -42,7 +42,7 @@ export default function ForgetPassword({navigation}) {
 
     var data = qs.stringify({
       'Forgot_password': '1',
-      'Email': Email,
+      'email':'chetanidigitalweb@gmail.com',
     });
     var config = {
       method: 'post',
@@ -56,11 +56,11 @@ export default function ForgetPassword({navigation}) {
     
     axios(config)
     .then((response)=>{
-      console.log(JSON.stringify(response));
+      console.log(JSON.stringify(response.data));
       navigation.navigate("Login")
   
     })
-    .catch(function (error) {
+    .catch((error)=>{
       console.log(error.response.data.message);
     });
 }

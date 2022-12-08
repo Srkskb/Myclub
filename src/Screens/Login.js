@@ -55,25 +55,25 @@ export default function Login({navigation}) {
     // //console.log('hit login api in else part');
     // setLoadingtypeoverlay(true);
 
-    // var email_test = String(Email).trim().toLowerCase()
+    var email_test = String(Email).trim().toLowerCase()
 
-    // if ( email_test === false  ) {
-    // setLoadingtypeoverlay(false);
-    // //console.log('email_test',email_test)
-    //   setTimeout(()=> {
-    //     Toast.show('Invalid email')
-    //     },200)
-    //     return
-    // }
-    // var password_test = (String(Password).trim()).length > 5
-    // if ( password_test === false  ) {
-    // setLoadingtypeoverlay(false);
-    // //console.log('password_test',password_test)
-    //   setTimeout(()=> {
-    //     Toast.show('Invalid password')
-    //     },200)
-    //     return
-    // }
+    if ( Email&&Email.length>0 ) {
+    setLoadingtypeoverlay(false);
+    console.log('email_test',email_test)
+      setTimeout(()=> {
+        Toast.show('Invalid email')
+        },200)
+        return
+    }
+    var password_test = (String(Password).trim()).length > 5
+    if ( Password&&Password.length>0 ) {
+    setLoadingtypeoverlay(false);
+    console.log('password_test',password_test)
+      setTimeout(()=> {
+        Toast.show('Invalid password')
+        },200)
+        return
+    }
 
   
 
@@ -103,7 +103,7 @@ export default function Login({navigation}) {
       navigation.navigate("Home")
   
     })
-    .catch(function (error) {
+    .catch((error)=>{
       console.log(error.response.data.message);
     });
 }
