@@ -46,13 +46,22 @@ export default function SignUp({ navigation }) {
     
     axios(config)
     .then((response)=>{
-      console.log(JSON.stringify(response));
-      navigation.navigate("Login")
+      if (response.data.success == 1) {
+        navigation.navigate("Login");
+      } else {
+        showMessage({
+          message: "MYBAG CLUB",
+          description: "Login Failed",
+          type: "danger",
+          textStyle: { fontFamily: "Poppins-Medium", color: "#fdfdfd" },
+          titleStyle: { fontFamily: "Poppins-SemiBold", color: "#fdfdfd" },
+        });
+      }
     })
     .catch((error)=>{
       console.log(error.response.data.message);
     });
-  }
+  }else{
   showMessage({
                message: "MYBAG CLUB",
                description: "Please enter all required fields ",
@@ -60,6 +69,7 @@ export default function SignUp({ navigation }) {
   textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
   titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
              });
+            }
 }
   return (
     <View style={styles.container}>

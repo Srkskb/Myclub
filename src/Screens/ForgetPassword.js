@@ -57,22 +57,33 @@ export default function ForgetPassword({navigation}) {
     
     axios(config)
     .then((response)=>{
-      console.log(JSON.stringify(response.data));
-      navigation.navigate("ForgetPassword2")
-  
+      if(response.data.success==1){
+        navigation.navigate("ForgetPassword2")
+      }else{
+        showMessage({
+             message: "MYBAG CLUB",
+             description: "Enter Correct Email",
+             type: "danger",
+textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
+titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
+           });
+      }
     })
     .catch((error)=>{
       console.log(error.response.data.message);
     });
-  }
-  showMessage({
-               message: "MYBAG CLUB",
-               description: "Please enter Email",
-               type: "danger",
-  textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
-  titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
-             });
+    }else{
+      showMessage({
+        message: "MYBAG CLUB",
+        description: "Please enter Email",
+        type: "danger",
+textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
+titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
+      });
+    }
 }
+// }
+
 
   return (
     <ScrollView style={{paddingHorizontal:15}}>
