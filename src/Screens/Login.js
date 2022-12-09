@@ -28,7 +28,7 @@ import Toast from "react-native-simple-toast";
 import * as qs from "qs";
 export default function Login({ navigation }) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-  const [Email, setEmail] = useState("");
+  const [Email, setEmail] = useState("shaharukh.abaris@gmail.com");
   const [Password, setPassword] = useState("");
   const [loadingtypeoverlay, setLoadingtypeoverlay] = useState(false);
 
