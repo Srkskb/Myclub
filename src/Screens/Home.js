@@ -1,5 +1,5 @@
-import { View, Text, StatusBar, Image, StyleSheet,ScrollView ,FlatList,Dimensions} from "react-native";
-import React from "react";
+import { View, Text, StatusBar, Image, StyleSheet,ScrollView ,FlatList} from "react-native";
+import React, { useState } from "react";
 import color from "../theme/color";
 import Header from "../component/Header.js";
 import SearchBox from "../component/SearchBox.js";
@@ -11,11 +11,10 @@ import {
 } from "react-native-responsive-screen";
 import Heading from "../component/Heading";
 import MyBagClubCard from "../component/MyBagClubCard";
-import Carousel from 'react-native-reanimated-carousel';
-const width = Dimensions.get('window').width;
+import Carousel from 'react-native-snap-carousel';
+
 export default function Home() {
-  const [banner, setBanner] = React.useState([])
-  const getBanner=()=>{
+  const[Banner,setBanner]=useState([])
   var data = qs.stringify({
     'banner': '1' 
   });
@@ -31,31 +30,9 @@ export default function Home() {
   };
   
   axios(config)
-  .then((response) => {
-          if (response.data.success == 1) {
-            setBanner(response.data.data)
-          }
+  .then(function (response) {
+    console.log(JSON.stringify(response.data));
   })
-}
-React.useEffect(() => {
-  getBanner()
-}, [])
-   const _renderItem=({item,index})=>{
-        return (
-          <View style={{
-              borderRadius: 5,
-              height: hp(26),
-              marginLeft: 12,
-              marginRight: 12, }}>
-          <Image
-            style={{ height: hp(26), width:'100%' }}
-            source={{uri:item.Banner}}
-            resizeMode={'contain'}
-          />
-          </View>
-
-        )
-    }
   return (
     <ScrollView>
       <View>
@@ -64,16 +41,10 @@ React.useEffect(() => {
 
         <SearchBox />
         <View style={{ width: "100%", alignSelf: "center", paddingTop: 15 }}>
-          <Carousel
-                loop
-                width={width}
-                height={width / 2}
-                autoPlay={true}
-                data={banner}
-                scrollAnimationDuration={1000}
-                onSnapToItem={(index) => console.log('current index:', index)}
-                renderItem={_renderItem}
-                />
+          <Image
+            style={{ height: hp(26), width: hp(54) }}
+            source={require("../images/ScrollImage.png")}
+          />
         </View>
         <Text style={styles.text}>All Categories</Text>
         <View>
