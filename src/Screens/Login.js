@@ -55,8 +55,8 @@ export default function Login({navigation}) {
     if(Email&&Password){
     var data = qs.stringify({
       'login': '1',
-      'Email': Email,
-      'Password': Password,
+      'email': Email,
+      'password': Password,
     });
     var config = {
       method: 'post',
@@ -70,22 +70,30 @@ export default function Login({navigation}) {
     
     axios(config)
     .then((response)=>{
-      console.log(JSON.stringify(response));
-      navigation.navigate("Home")
-  
+      if(response.data.success==1){
+            navigation.navigate("Home")
+          }else{
+            showMessage({
+                 message: "MYBAG CLUB",
+                 description: "Login Failed",
+                 type: "danger",
+    textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
+    titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
+               });
+          }
     })
     .catch((error)=>{
       console.log(error.response.data.message);
     });
-  }
-  showMessage({
-               message: "MYBAG CLUB",
-               description: "Please enter Email or Password",
-               type: "danger",
-  textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
-  titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
-             });
-            
+  }else{
+    showMessage({
+                 message: "MYBAG CLUB",
+                 description: "Please enter Email or Password",
+                 type: "danger",
+    textStyle:{fontFamily:'Poppins-Medium',color: '#fdfdfd'},
+    titleStyle:{fontFamily:'Poppins-SemiBold',color: '#fdfdfd'}
+               });
+              }
 }
 
 
