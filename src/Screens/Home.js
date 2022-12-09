@@ -1,4 +1,4 @@
-import { View, Text, StatusBar, Image, StyleSheet,ScrollView ,FlatList,Dimensions} from "react-native";
+import { View, Text, StatusBar, Image, StyleSheet,ScrollView ,FlatList,Dimensions, TouchableOpacity} from "react-native";
 import React from "react";
 import color from "../theme/color";
 import Header from "../component/Header.js";
@@ -15,6 +15,7 @@ import Carousel from 'react-native-reanimated-carousel';
 const width = Dimensions.get('window').width;
 export default function Home() {
   const [banner, setBanner] = React.useState([])
+  const[maincategory,setMaincategory]=React.useState([])
   const getBanner=()=>{
   var data = qs.stringify({
     'banner': '1' 
@@ -37,8 +38,31 @@ export default function Home() {
           }
   })
 }
+const getCategories=()=>{
+  var data = qs.stringify({
+    'maincategory': '1' 
+  });
+  var config = {
+    method: 'post',
+    url: 'https://mybagclub.net/api/api.php',
+    headers: { 
+      'Accept': 'application/json', 
+      'Content-Type': 'application/x-www-form-urlencoded', 
+      'Cookie': 'PHPSESSID=e725fd8909efe482e620fa2f553c8ce1'
+    },
+    data : data
+  };
+  
+  axios(config)
+  .then((response) => {
+          if (response.data.success == 1) {
+            setMaincategory(response.data.data)
+          }
+  })
+}
 React.useEffect(() => {
   getBanner()
+  getCategories()
 }, [])
    const _renderItem=({item,index})=>{
         return (
@@ -77,7 +101,7 @@ React.useEffect(() => {
         </View>
         <Text style={styles.text}>All Categories</Text>
         <View>
-          <View style={styles.categories}>
+          {/* <View style={styles.categories}>
             <View style={styles.imageView}>
               <Image
                 style={styles.image}
@@ -107,7 +131,32 @@ React.useEffect(() => {
               />
               <Text style={styles.TextView}>Clothing</Text>
             </View>
+          </View> */}
+          <View style={styles.categories}>
+          
+          <FlatList
+            horizontal={true}
+  keyExtractor={(item) => item.id}
+  data={maincategory}
+  renderItem={({ item }) => (
+    <>
+    <TouchableOpacity>
+    <View style={styles.categories}>
+      <View style={styles.imageView}>
+     
+      <Image
+            style={{ height: hp(10), width:'50%' }}
+            source={{uri:item.icons}}
+            resizeMode={'contain'}
+          />
+           <Text style={{fontSize:10,fontWeight:'bold',color:"#000"}}>{item.maincategory}</Text>
           </View>
+          </View>
+          </TouchableOpacity>
+    </>
+  )}
+/>
+</View>
           <Heading HeadLine="ON SALE" />
           <View
             style={{
@@ -197,9 +246,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
     marginTop: 20,
+    marginHorizontal:10
   },
   categories: {
-    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 10,
@@ -207,8 +256,9 @@ const styles = StyleSheet.create({
   },
   imageView: {
     borderWidth: 1,
-    height: 74,
-    width: 74,
+    height: 150,
+    width: 150,
+    backgroundColor:"#FFF",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 37,
