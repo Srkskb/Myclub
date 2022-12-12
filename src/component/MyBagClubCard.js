@@ -1,5 +1,6 @@
-import { View, Text,StyleSheet ,Image,ScrollView} from 'react-native'
+import { View, Text,StyleSheet ,Image,ScrollView,Dimensions} from 'react-native'
 import React from 'react'
+const { height, width, fontScale } = Dimensions.get('window');
 
 
 export default function MyBagClubCard({
@@ -23,8 +24,8 @@ export default function MyBagClubCard({
           source={imageSrc}
         />
       </View>
-      <Text>Category:{CategoryName}</Text>
-      <Text>{Description}</Text>
+      <Text numberOfLines={2}>{CategoryName}</Text>
+      <Text numberOfLines={4}>{Description}</Text>
       <View style={styles.price}>
         <View>
           <Text style={styles.OldPrice}>{OldPrice}</Text>
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   parent: {
     paddingHorizontal: 5,
     borderWidth: 1,
-    width: "45%",
+    width:width*0.45,
     borderRadius: 10,
     marginTop: 20,
   },

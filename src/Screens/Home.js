@@ -15,8 +15,9 @@ import Carousel from 'react-native-reanimated-carousel';
 const width = Dimensions.get('window').width;
 export default function Home() {
   const [banner, setBanner] = React.useState([])
+  const [recommend, setRecommend] = React.useState([])
   const[maincategory,setMaincategory]=React.useState([])
-  const getBanner=()=>{
+const getBanner=()=>{
   var data = qs.stringify({
     'banner': '1' 
   });
@@ -36,6 +37,28 @@ export default function Home() {
           if (response.data.success == 1) {
             setBanner(response.data.data)
           }
+  })
+}
+const getRecommended=()=>{
+  var data = qs.stringify({
+    'Recommend_products': '1'
+  });
+  var config = {
+    method: 'post',
+    url: 'https://mybagclub.net/api/api.php',
+    headers: { 
+      'Accept': 'application/json', 
+      'Content-Type': 'application/x-www-form-urlencoded', 
+      'Cookie': 'PHPSESSID=88642bac642a3a07df061d23628420c7'
+    },
+    data : data
+  };
+  
+  axios(config)
+  .then((response) => {
+          // if (response.data.success == 1) {
+            setRecommend(response.data.product)
+          // }
   })
 }
 const getCategories=()=>{
@@ -62,6 +85,7 @@ const getCategories=()=>{
 }
 React.useEffect(() => {
   getBanner()
+  getRecommended()
   getCategories()
 }, [])
    const _renderItem=({item,index})=>{
@@ -95,7 +119,7 @@ React.useEffect(() => {
                 autoPlay={true}
                 data={banner}
                 scrollAnimationDuration={1000}
-                onSnapToItem={(index) => console.log('current index:', index)}
+                // onSnapToItem={(index) => console.log('current index:', index)}
                 renderItem={_renderItem}
                 />
         </View>
@@ -181,14 +205,13 @@ React.useEffect(() => {
             <Text>Show All</Text>
           </View>
           <Heading HeadLine="RECOMMENDED" />
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
+          <View style={{
+              // flexDirection: "row",
+              // flexWrap: "wrap",
               justifyContent: "space-around",
             }}
           >
-            <MyBagClubCard
+            {/*<MyBagClubCard
               Description="AFFINITI for Wm B Woods US 10AAAA ..."
               CategoryName="Women's Heels"
               OldPrice="$45"
@@ -202,7 +225,24 @@ React.useEffect(() => {
               NewPrice="$56"
               imageSrc={require("../images/Demo_pic.png")}
 
+            />*/}
+            <FlatList
+            horizontal={true}
+      keyExtractor={(item) => item.id}
+        data={recommend}
+        renderItem={({ item }) => (
+        <View style={{marginRight:10}}>
+        <MyBagClubCard
+              Description={item.short_description}
+              CategoryName={item.product_name}
+              OldPrice={item.Price}
+              NewPrice={item.Price}
+              imageSrc={{uri:item.image}}
+
             />
+        </View>
+  )}
+/>
           </View>
           <View style={styles.ShowAll}>
             <Text>Show All</Text>
