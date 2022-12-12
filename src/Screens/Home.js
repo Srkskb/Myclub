@@ -140,17 +140,14 @@ React.useEffect(() => {
   data={maincategory}
   renderItem={({ item }) => (
     <>
-    <TouchableOpacity>
-    <View style={styles.categories}>
+    <TouchableOpacity style={styles.categories}>
       <View style={styles.imageView}>
-     
       <Image
-            style={{ height: hp(10), width:'50%' }}
+            style={styles.image}
             source={{uri:item.icons}}
             resizeMode={'contain'}
           />
-           <Text style={{fontSize:10,fontWeight:'bold',color:"#000"}}>{item.maincategory}</Text>
-          </View>
+           <Text adjustsFontSizeToFit numberOfLines={2} style={styles.TextView}>{item.maincategory}</Text>
           </View>
           </TouchableOpacity>
     </>
@@ -249,19 +246,19 @@ const styles = StyleSheet.create({
     marginHorizontal:10
   },
   categories: {
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal:15,
   },
   imageView: {
     borderWidth: 1,
-    height: 150,
-    width: 150,
+    height: hp(10),
+    width: hp(10),
     backgroundColor:"#FFF",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 37,
+    borderRadius: hp(10),
     borderColor: "#781C45",
   },
   image: {
@@ -271,6 +268,7 @@ const styles = StyleSheet.create({
   TextView: {
     fontSize: 8,
     fontWeight: "bold",
+    textAlign:'center'
   },
   ShowAll:{
   flexDirection: "row",
